@@ -82,7 +82,12 @@ a{color:inherit}
 .brand{display:inline-flex;align-items:center;gap:12px;font:700 19px/1 var(--serif);text-decoration:none;letter-spacing:-.01em;color:var(--ink-deep)}
 .brand img{width:48px;height:48px;border-radius:50%;box-shadow:0 6px 16px -8px oklch(0.3 0.08 60 / .6);transition:transform .3s var(--ease)}
 .brand:hover img{transform:rotate(-4deg) scale(1.04)}
-.phone{font:600 15px/1 var(--sans);text-decoration:none;border-bottom:2px solid var(--ink);padding-bottom:2px}
+.topbar{flex-wrap:wrap;row-gap:12px}
+.reach{display:flex;flex-wrap:wrap;align-items:center;margin:0;padding:0;list-style:none;font:600 14px/1.3 var(--sans)}
+.reach li+li{margin-left:14px;padding-left:14px;border-left:1px solid oklch(0.21 0.03 264 / .3)}
+.reach a{text-decoration:none;border-bottom:2px solid transparent;padding-bottom:1px;transition:border-color .3s var(--ease)}
+.reach a:hover,.reach .tel{border-bottom-color:currentColor}
+@media (max-width:639px){.reach{width:100%;gap:8px 18px;font-size:13.5px}.reach li+li{margin-left:0;padding-left:0;border-left:0}.reach li:last-child{order:-1}}
 .hero{position:relative;display:grid;gap:40px;padding:40px 0 64px;align-items:center}
 @media (min-width:960px){.hero{grid-template-columns:1.25fr 1fr;padding:56px 0 88px}}
 .hero .eyebrow{color:var(--ink)}
@@ -190,7 +195,7 @@ footer p{margin:6px 0 0}
   <div class="container">
     <div class="topbar">
       <a class="brand" href="https://minutenotary.ca/?utm_source=minutenotary.github.io&amp;utm_medium=referral&amp;utm_campaign=seal-check"><img src="assets/logo-192.png" width="48" height="48" alt="">Minute Notary</a>
-      <a class="phone" href="tel:+16134345555">(613) 434-5555</a>
+      <ul class="reach" aria-label="Contact Minute Notary"><li><a href="https://minutenotary.ca/?utm_source=minutenotary.github.io&amp;utm_medium=referral&amp;utm_campaign=seal-check">minutenotary.ca</a></li><li><a href="mailto:info@minutenotary.ca">info@minutenotary.ca</a></li><li><a class="tel" href="tel:+16134345555">(613) 434-5555</a></li></ul>
     </div>
     <div class="hero">
       <div>
@@ -198,7 +203,8 @@ footer p{margin:6px 0 0}
         <h1 class="reveal d1">Check that a sealed document is genuine</h1>
         <p class="lede reveal d2">Every document Minute Notary seals carries a code and a cryptographic seal. Check it online in seconds, or offline with open-source code.</p>
         <div class="actions reveal d3">
-          <a class="btn" href="#online">Check a code</a>
+          <a class="btn" href="https://minutenotary.ca/book?utm_source=minutenotary.github.io&amp;utm_medium=referral&amp;utm_campaign=seal-check&amp;utm_content=hero-book">Book with Minute Notary</a>
+          <a class="btn line" href="#online">Check a code</a>
           <a class="btn line" href="sealed-pdf-verify/">Open the offline verifier</a>
         </div>
       </div>
