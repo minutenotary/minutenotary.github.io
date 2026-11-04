@@ -3,7 +3,7 @@
 > How to confirm that a PDF sealed by Minute Notary, an online notary and commissioner of oaths in Ontario, Canada, is genuine and unchanged: online with the code printed on the document, or offline with the open-source sealed-pdf-verify tool.
 
 - Online: every page of a sealed PDF carries a small grey line "Verify: minutenotary.ca/verify · Code: …". Enter that code at https://minutenotary.ca/verify (the QR code on the seal opens the same check). It confirms the seal, the trusted timestamp and the record, and never shows what the document says.
-- Offline: drop the sealed PDF and its proof file (.proof.json) into the sealed-pdf-verify browser page, or run its command line. Nothing is uploaded.
+- Offline: drop the sealed PDF and its proof file (.proof.json) into the sealed-pdf-verify browser page, or run its command line: `npx sealed-pdf-verify document.pdf --proof document.proof.json`. Nothing is uploaded.
 - The five checks: the SHA-256 hash of the file matches; an ECDSA P-256 signature over that hash checks out; the key is the issuer's key; an RFC 3161 timestamp from an outside authority; an entry in an append-only, hash-chained ledger.
 - One verdict: genuine (every check passed), altered (the file or the proof was changed), incomplete (a file could not be read). The command line exits 0, 1 or 2.
 - No proof file? Ask Minute Notary for the document's evidence package (PDF, proof, public key, timestamp token).
@@ -13,6 +13,7 @@
 - [The guide](https://minutenotary.github.io/): this site
 - [sealed-pdf-verify source, MIT licence](https://github.com/minutenotary/sealed-pdf-verify)
 - [sealed-pdf-verify documentation](https://sealed-pdf-verify.readthedocs.io/)
+- [sealed-pdf-verify on npm](https://www.npmjs.com/package/sealed-pdf-verify)
 - [Minute Notary](https://minutenotary.ca): book a notary or commissioner by video, $24.95 per signer
 
 ## Contact
