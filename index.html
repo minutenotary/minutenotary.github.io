@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Check a Sealed Minute Notary Document</title>
+<meta name="description" content="How to check that a PDF sealed by Minute Notary is genuine: the online check with the code printed on the document, and an open-source offline verifier.">
+<link rel="canonical" href="https://minutenotary.github.io/">
+<meta property="og:title" content="Check a Sealed Minute Notary Document">
+<meta property="og:description" content="Online check with the printed code, or an open-source offline verifier that never uploads your file.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://minutenotary.github.io/">
+<meta property="og:image" content="https://minutenotary.github.io/assets/logo-512.png">
+<meta name="theme-color" content="#fbbf24">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preload" href="fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Notary",
+  "name": "Minute Notary",
+  "url": "https://minutenotary.ca",
+  "logo": "https://minutenotary.github.io/assets/logo-512.png",
+  "telephone": "+16134345555",
+  "email": "info@minutenotary.ca",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "8056 Jeanne d'Arc Boulevard North",
+    "addressLocality": "Ottawa",
+    "addressRegion": "ON",
+    "postalCode": "K1E 1W8",
+    "addressCountry": "CA"
+  },
+  "openingHours": "Mo-Su 08:00-20:00",
+  "areaServed": "Ontario",
+  "sameAs": ["https://github.com/minutenotary"]
+}
+</script>
+<style>
+@font-face{font-family:"Inter";src:url(fonts/inter-latin.woff2) format("woff2");font-weight:400 700;font-display:swap}
+@font-face{font-family:"Source Serif 4";src:url(fonts/source-serif-4-latin.woff2) format("woff2");font-weight:500 700;font-display:swap}
+:root{
+  --paper:oklch(0.995 0.002 90);
+  --ink:oklch(0.21 0.03 264);
+  --ink-deep:oklch(0.13 0.028 262);
+  --body:oklch(0.45 0.03 257);
+  --muted:oklch(0.55 0.025 257);
+  --rule:oklch(0.21 0.03 264 / 0.12);
+  --yellow:oklch(0.84 0.16 84);
+  --amber:oklch(0.77 0.16 70);
+  --amber-soft:oklch(0.987 0.022 95);
+  --amber-ink:oklch(0.47 0.13 46);
+  --ok-ink:oklch(0.43 0.1 166);--bad-ink:oklch(0.5 0.19 27);
+  --serif:"Source Serif 4",Georgia,serif;
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--body);font:400 16px/1.6 var(--sans);text-rendering:optimizeLegibility}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:2px}
+.container{width:100%;max-width:1200px;margin:0 auto;padding:0 16px}
+@media (min-width:768px){.container{padding:0 32px}}
+.eyebrow{margin:0;font:600 12px/1.4 var(--sans);letter-spacing:.2em;text-transform:uppercase}
+.draw{position:relative;text-decoration:none;font-weight:600;color:var(--ink)}
+.draw::after{content:"";position:absolute;left:0;bottom:-2px;height:2px;width:100%;background:var(--yellow);transition:background .3s var(--ease)}
+.draw:hover::after{background:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:12px 24px;border-radius:6px;font:600 16px/1 var(--sans);text-decoration:none;cursor:pointer;border:2px solid var(--ink-deep);background:var(--ink-deep);color:oklch(0.985 0.003 90);white-space:nowrap;transition:transform .3s var(--ease),background-color .3s var(--ease),color .3s var(--ease)}
+.btn:hover{transform:translateY(-2px);background:var(--ink)}
+.btn:active{transform:translateY(0) scale(.98)}
+.btn.line{background:transparent;color:var(--ink-deep)}
+.btn.line:hover{background:var(--ink-deep);color:oklch(0.985 0.003 90)}
+
+/* masthead */
+.mast{position:relative;overflow:hidden;color:var(--ink);background:linear-gradient(135deg,var(--yellow) 0%,var(--amber) 60%,oklch(0.86 0.15 92) 100%)}
+.mast::before,.closing::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.07;background:repeating-linear-gradient(90deg,var(--ink) 0 1px,transparent 1px 44px)}
+.topbar{position:relative;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 0}
+.brand{display:inline-flex;align-items:center;gap:12px;font:700 19px/1 var(--serif);text-decoration:none;letter-spacing:-.01em;color:var(--ink-deep)}
+.brand img{width:48px;height:48px;border-radius:50%;box-shadow:0 6px 16px -8px oklch(0.3 0.08 60 / .6);transition:transform .3s var(--ease)}
+.brand:hover img{transform:rotate(-4deg) scale(1.04)}
+.phone{font:600 15px/1 var(--sans);text-decoration:none;border-bottom:2px solid var(--ink);padding-bottom:2px}
+.hero{position:relative;display:grid;gap:40px;padding:40px 0 64px;align-items:center}
+@media (min-width:960px){.hero{grid-template-columns:1.25fr 1fr;padding:56px 0 88px}}
+.hero .eyebrow{color:var(--ink)}
+.hero h1{margin:14px 0 0;font:700 2.5rem/1.04 var(--serif);letter-spacing:-.02em;color:var(--ink-deep)}
+@media (min-width:640px){.hero h1{font-size:3rem}}
+@media (min-width:1024px){.hero h1{font-size:3.5rem}}
+.lede{margin:18px 0 0;font-size:18px;line-height:1.55;color:oklch(0.27 0.035 262);max-width:52ch}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin:28px 0 0}
+.seal-art{justify-self:center;width:min(360px,80vw);aspect-ratio:1;position:relative}
+.seal-art svg{position:absolute;inset:0;width:100%;height:100%;color:var(--ink-deep)}
+.seal-art img{position:absolute;inset:22%;width:56%;height:56%;border-radius:50%;box-shadow:0 30px 60px -28px oklch(0.3 0.08 60 / .8)}
+@media (max-width:959px){.seal-art{display:none}}
+
+/* two ways (white) */
+.ways{padding:72px 0 88px}
+@media (min-width:768px){.ways{padding:104px 0 112px}}
+.ways .eyebrow{color:var(--amber-ink)}
+.ways h2,.checks h2,.dev h2{margin:12px 0 0;font:500 2rem/1.15 var(--serif);letter-spacing:-.015em;color:var(--ink);max-width:24ch}
+@media (min-width:640px){.ways h2,.checks h2,.dev h2{font-size:2.4rem}}
+.cols{display:grid;margin:44px 0 0;border-top:2px solid var(--ink)}
+@media (min-width:860px){.cols{grid-template-columns:1fr 1fr}}
+.col{padding:32px 0 8px}
+@media (min-width:860px){.col{padding:36px 40px 8px}.col:first-child{padding-left:0;border-right:1px solid var(--rule)}}
+.col h3{margin:0;font:600 20px/1.3 var(--sans);color:var(--ink)}
+.col p{margin:10px 0 0;max-width:52ch}
+.col .tag{display:inline-block;margin:0 0 14px;font:600 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--amber-ink)}
+.code-form{margin:24px 0 0;max-width:460px}
+.code-form label{display:block;font:600 10.5px/1.4 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--ink)}
+.code-row{display:flex;gap:12px;align-items:flex-end;margin-top:4px}
+.code-row input{flex:1;min-width:0;height:52px;border:0;border-bottom:1px solid oklch(0.21 0.03 264 / .3);background:transparent;font:500 18px/1 var(--mono);color:var(--ink);padding:0 2px;border-radius:0}
+.code-row input:focus{outline:none;box-shadow:inset 0 -2px 0 var(--ink)}
+.code-form .msg{min-height:22px;margin:8px 0 0;font-size:14px;color:var(--bad-ink)}
+.where{margin:20px 0 0;padding:16px 18px;background:var(--amber-soft);border-radius:6px;font-size:15px;max-width:52ch}
+.where strong{color:var(--ink)}
+
+/* five checks (amber) */
+.checks{background:var(--amber-soft);padding:72px 0 88px}
+@media (min-width:768px){.checks{padding:104px 0}}
+.checks .eyebrow{color:var(--amber-ink)}
+.checks .grid{display:grid;gap:40px}
+@media (min-width:1024px){.checks .grid{grid-template-columns:4fr 8fr;gap:56px}.checks .rail{position:sticky;top:28px;align-self:start}}
+.checks .rail p{margin:14px 0 0;max-width:40ch}
+.verdicts{display:flex;flex-direction:column;gap:10px;margin:24px 0 0;font-size:15px}
+.verdicts span{display:flex;gap:10px;align-items:baseline}
+.verdicts b{font:600 13px/1 var(--mono);padding:5px 8px;border-radius:4px}
+.v-ok{background:oklch(0.95 0.05 163);color:var(--ok-ink)}
+.v-bad{background:oklch(0.95 0.04 27);color:var(--bad-ink)}
+.v-inc{background:oklch(0.94 0.01 257);color:var(--ink)}
+ol.ledger{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+ol.ledger li{display:grid;grid-template-columns:64px 1fr;gap:4px 16px;padding:26px 0;border-bottom:1px solid var(--rule)}
+@media (min-width:640px){ol.ledger li{grid-template-columns:88px 1fr}}
+ol.ledger .n{grid-row:span 2;font:600 34px/1 var(--serif);color:var(--amber-ink)}
+ol.ledger h3{margin:0;font:600 18px/1.35 var(--sans);color:var(--ink)}
+ol.ledger h3 code{font:500 13px var(--mono);color:var(--muted);margin-left:8px}
+ol.ledger p{margin:6px 0 0;max-width:60ch}
+
+/* developers (docket) */
+.dev{position:relative;overflow:hidden;background:var(--ink-deep);color:oklch(0.87 0.015 257);padding:72px 0 88px}
+@media (min-width:768px){.dev{padding:104px 0}}
+.dev .eyebrow{color:var(--yellow)}
+.dev h2{color:oklch(0.985 0.003 90)}
+.dev .intro{margin:16px 0 0;max-width:60ch}
+.term{margin:36px 0 0;border:1px solid oklch(0.84 0.16 84 / .45);border-radius:6px;background:oklch(0.17 0.03 262);overflow:auto}
+.term pre{margin:0;padding:20px 22px;font:500 14px/1.7 var(--mono);color:oklch(0.93 0.01 257)}
+.term .c{color:oklch(0.65 0.02 257)}
+.term .p{color:var(--yellow)}
+.dl{display:grid;margin:36px 0 0;border-top:1px solid var(--yellow)}
+@media (min-width:768px){.dl{grid-template-columns:repeat(3,1fr)}}
+.dl div{padding:22px 0 4px}
+@media (min-width:768px){.dl div{padding:24px 28px 4px;border-left:1px solid oklch(0.84 0.16 84 / .5)}.dl div:first-child{padding-left:0;border-left:0}}
+.dl dt{font:600 11px/1.4 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--yellow)}
+.dl dd{margin:8px 0 0}
+.dl a{color:oklch(0.985 0.003 90)}
+
+/* closing + footer */
+.closing{position:relative;overflow:hidden;color:var(--ink);background:linear-gradient(135deg,var(--yellow),var(--amber));padding:64px 0}
+.closing .container{position:relative;display:grid;gap:28px;align-items:end}
+@media (min-width:900px){.closing .container{grid-template-columns:1.4fr 1fr}}
+.closing .eyebrow{color:var(--ink)}
+.closing h2{margin:12px 0 0;font:500 2rem/1.12 var(--serif);letter-spacing:-.015em;color:var(--ink-deep)}
+@media (min-width:640px){.closing h2{font-size:2.6rem}}
+.closing p{margin:14px 0 0;font-size:17px;color:oklch(0.27 0.035 262);max-width:48ch}
+.closing .actions{margin:0;align-items:center;gap:20px}
+@media (min-width:900px){.closing .actions{justify-content:flex-end}}
+footer{background:var(--ink-deep);color:oklch(0.75 0.02 257);padding:40px 0 48px;font-size:14px;border-top:1px solid var(--yellow)}
+footer .container{display:grid;gap:24px}
+@media (min-width:768px){footer .container{grid-template-columns:1fr 1fr}}
+footer a{color:oklch(0.96 0.005 90)}
+footer .brand{color:oklch(0.985 0.003 90);font-size:22px}
+footer .brand img{width:56px;height:56px;box-shadow:none}
+footer address{font-style:normal;margin:16px 0 0;line-height:1.7}
+footer address span{display:block}
+footer p{margin:6px 0 0}
+
+.seal-art circle.ring{stroke-dasharray:1;stroke-dashoffset:1;animation:ink 2.4s var(--ease) .2s forwards}
+@keyframes ink{to{stroke-dashoffset:0}}
+.reveal{animation:rise .7s var(--ease) both}.d1{animation-delay:.06s}.d2{animation-delay:.12s}.d3{animation-delay:.18s}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.seal-art circle.ring{stroke-dashoffset:0}}
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <div class="container">
+    <div class="topbar">
+      <a class="brand" href="https://minutenotary.ca/?utm_source=minutenotary.github.io&amp;utm_medium=referral&amp;utm_campaign=seal-check"><img src="assets/logo-192.png" width="48" height="48" alt="">Minute Notary</a>
+      <a class="phone" href="tel:+16134345555">(613) 434-5555</a>
+    </div>
+    <div class="hero">
+      <div>
+        <p class="eyebrow reveal">Sealed documents</p>
+        <h1 class="reveal d1">Check that a sealed document is genuine</h1>
+        <p class="lede reveal d2">Every document Minute Notary seals carries a code and a cryptographic seal. Check it online in seconds, or offline with open-source code.</p>
+        <div class="actions reveal d3">
+          <a class="btn" href="#online">Check a code</a>
+          <a class="btn line" href="sealed-pdf-verify/">Open the offline verifier</a>
+        </div>
+      </div>
+      <div class="seal-art" aria-hidden="true">
+        <svg viewBox="0 0 200 200" fill="none" stroke="currentColor">
+          <circle class="ring" cx="100" cy="100" r="98" stroke-width=".8" pathLength="1" opacity=".55"/>
+          <circle cx="100" cy="100" r="91" stroke-width="5" stroke-dasharray="0.6 4.2" opacity=".35"/>
+          <circle class="ring" cx="100" cy="100" r="84" stroke-width=".8" pathLength="1" opacity=".55"/>
+        </svg>
+        <img src="assets/logo-512.png" width="512" height="512" alt="">
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="ways" aria-labelledby="ways-title">
+    <div class="container">
+      <p class="eyebrow">Two ways to check</p>
+      <h2 id="ways-title">Online with the code, or offline with the file</h2>
+      <div class="cols">
+        <div class="col" id="online">
+          <span class="tag">Online</span>
+          <h3>Look up the code printed on the document</h3>
+          <p>The check confirms the Minute Notary seal, the trusted timestamp and the tamper-evident record. It never shows what the document says.</p>
+          <form class="code-form" id="code-form" novalidate>
+            <label for="code">Seal code</label>
+            <div class="code-row">
+              <input id="code" name="code" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="From the line “Code:”" aria-describedby="code-msg">
+              <button class="btn" type="submit">Check</button>
+            </div>
+            <p class="msg" id="code-msg" aria-live="polite"></p>
+          </form>
+          <p class="where"><strong>Where is the code?</strong> In the small grey line at the top of every page of the sealed PDF: “Verify: minutenotary.ca/verify · Code: …”. The QR code on the seal opens the same check.</p>
+        </div>
+        <div class="col">
+          <span class="tag">Offline</span>
+          <h3>Verify the file itself, without uploading it</h3>
+          <p>Drop the sealed PDF and its proof file (<code>.proof.json</code>) into the open-source verifier. It runs entirely in your browser; nothing leaves your computer.</p>
+          <div class="actions">
+            <a class="btn line" href="sealed-pdf-verify/">Open the offline verifier</a>
+          </div>
+          <p class="where"><strong>No proof file?</strong> Ask Minute Notary for the evidence package of your document. It holds the PDF, the proof, the public key and the timestamp token.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="checks" aria-labelledby="checks-title">
+    <div class="container grid">
+      <div class="rail">
+        <p class="eyebrow">What gets checked</p>
+        <h2 id="checks-title">Five checks, in plain words</h2>
+        <p>The offline verifier runs all five and gives one verdict.</p>
+        <div class="verdicts">
+          <span><b class="v-ok">genuine</b> every check passed</span>
+          <span><b class="v-bad">altered</b> the file or the proof was changed</span>
+          <span><b class="v-inc">incomplete</b> a file could not be read</span>
+        </div>
+      </div>
+      <ol class="ledger">
+        <li><span class="n">01</span><h3>The file is unchanged <code>hash</code></h3><p>The fingerprint (SHA-256) of the exact PDF you hold equals the one recorded when it was sealed. Change one byte and this fails.</p></li>
+        <li><span class="n">02</span><h3>The seal belongs to that file <code>signature</code></h3><p>An ECDSA P-256 signature over that fingerprint checks out with the public key in the proof.</p></li>
+        <li><span class="n">03</span><h3>The key is the issuer's key <code>key</code></h3><p>Compare the key fingerprint the verifier prints with the one Minute Notary gives you, or give the verifier a trust list.</p></li>
+        <li><span class="n">04</span><h3>The time is independent <code>timestamp</code></h3><p>An RFC 3161 timestamp from an outside authority proves when the seal was made, not just what the server clock said.</p></li>
+        <li><span class="n">05</span><h3>The seal is on the record <code>ledger</code></h3><p>The seal's entry in an append-only, hash-chained ledger recomputes from the proof, so it cannot be slipped in later.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="dev" aria-labelledby="dev-title">
+    <div class="container">
+      <p class="eyebrow">For developers and courts</p>
+      <h2 id="dev-title">The verifier is open source</h2>
+      <p class="intro">Library, command line and browser page under the MIT licence, with the seal format documented so anyone can write their own checker.</p>
+      <div class="term" role="region" aria-label="Command line example" tabindex="0">
+<pre><span class="c"># check a sealed PDF next to its proof file</span>
+<span class="p">$</span> npx sealed-pdf-verify document.pdf --proof document.proof.json
+
+<span class="c"># or a whole evidence package</span>
+<span class="p">$</span> npx sealed-pdf-verify evidence.zip</pre>
+      </div>
+      <dl class="dl">
+        <div><dt>Source</dt><dd><a href="https://github.com/minutenotary/sealed-pdf-verify">github.com/minutenotary/sealed-pdf-verify</a></dd></div>
+        <div><dt>Documentation</dt><dd><a href="https://sealed-pdf-verify.readthedocs.io/">sealed-pdf-verify.readthedocs.io</a></dd></div>
+        <div><dt>Browser page</dt><dd><a href="sealed-pdf-verify/">minutenotary.github.io/sealed-pdf-verify</a></dd></div>
+      </dl>
+    </div>
+  </section>
+</main>
+
+<section class="closing" aria-labelledby="closing-title">
+  <div class="container">
+    <div>
+      <p class="eyebrow">Ottawa, Ontario</p>
+      <h2 id="closing-title">Need a document sworn and sealed?</h2>
+      <p>A commissioner takes your oath by video from anywhere in Ontario, every day from 8 AM to 8 PM.</p>
+    </div>
+    <div class="actions">
+      <a class="btn" href="https://minutenotary.ca/book?utm_source=minutenotary.github.io&amp;utm_medium=referral&amp;utm_campaign=seal-check">Book with Minute Notary</a>
+      <a class="draw" href="tel:+16134345555">(613) 434-5555</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div>
+      <a class="brand" href="https://minutenotary.ca"><img src="assets/logo-192.png" width="56" height="56" alt="">Minute Notary</a>
+      <address>
+        <span>8056 Jeanne d'Arc Boulevard North</span>
+        <span>Ottawa, Ontario K1E 1W8, Canada</span>
+        <span><a href="tel:+16134345555">(613) 434-5555</a></span>
+        <span><a href="mailto:info@minutenotary.ca">info@minutenotary.ca</a></span>
+        <span>Open 7 days, 8 AM to 8 PM</span>
+      </address>
+    </div>
+    <div>
+      <p>Open source by Minute Notary on <a href="https://github.com/minutenotary">GitHub</a>.</p>
+      <p>Also see the <a href="https://minutenotary.pages.dev/">Ontario sworn court forms finder</a>.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const form = document.getElementById('code-form');
+  const input = document.getElementById('code');
+  const msg = document.getElementById('code-msg');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const code = input.value.trim().replace(/^code:\s*/i, '');
+    if (!/^[A-Za-z0-9_-]{6,64}$/.test(code)) {
+      msg.textContent = 'Type the code exactly as printed after “Code:”, letters and numbers only.';
+      input.setAttribute('aria-invalid', 'true');
+      input.focus();
+      return;
+    }
+    input.removeAttribute('aria-invalid');
+    msg.textContent = '';
+    location.href = 'https://minutenotary.ca/verify/' + encodeURIComponent(code);
+  });
+})();
+</script>
+</body>
+</html>
