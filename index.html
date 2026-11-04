@@ -2,6 +2,8 @@
 <html lang="en-CA">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Check a Sealed Minute Notary Document</title>
 <meta name="description" content="How to check that a PDF sealed by Minute Notary is genuine: the online check with the code printed on the document, and an open-source offline verifier.">
@@ -11,6 +13,10 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://minutenotary.github.io/">
 <meta property="og:image" content="https://minutenotary.github.io/assets/logo-512.png">
+<meta property="og:image:alt" content="Minute Notary logo">
+<meta property="og:site_name" content="Minute Notary">
+<meta property="og:locale" content="en_CA">
+<meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#fbbf24">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -19,25 +25,31 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Notary",
-  "name": "Minute Notary",
-  "url": "https://minutenotary.ca",
-  "logo": "https://minutenotary.github.io/assets/logo-512.png",
-  "telephone": "+16134345555",
-  "email": "info@minutenotary.ca",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "8056 Jeanne d'Arc Boulevard North",
-    "addressLocality": "Ottawa",
-    "addressRegion": "ON",
-    "postalCode": "K1E 1W8",
-    "addressCountry": "CA"
+  "@type": "WebPage",
+  "@id": "https://minutenotary.github.io/#page",
+  "url": "https://minutenotary.github.io/",
+  "name": "Check a sealed Minute Notary document",
+  "description": "How to check that a PDF sealed by Minute Notary is genuine: the online check with the printed code, and an open-source offline verifier.",
+  "inLanguage": "en-CA",
+  "datePublished": "2026-11-04",
+  "dateModified": "2026-11-05",
+  "primaryImageOfPage": "https://minutenotary.github.io/assets/logo-512.png",
+  "publisher": {
+    "@id": "https://minutenotary.ca/#org"
   },
-  "openingHours": "Mo-Su 08:00-20:00",
-  "areaServed": "Ontario",
-  "sameAs": ["https://github.com/minutenotary"]
+  "about": {
+    "@id": "https://minutenotary.ca/#business"
+  },
+  "mentions": {
+    "@type": "SoftwareSourceCode",
+    "name": "sealed-pdf-verify",
+    "codeRepository": "https://github.com/minutenotary/sealed-pdf-verify",
+    "programmingLanguage": "TypeScript",
+    "license": "https://opensource.org/license/mit"
+  }
 }
 </script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://minutenotary.ca/#org","name":"Minute Notary","url":"https://minutenotary.ca","logo":"https://minutenotary.ca/logo.png","email":"info@minutenotary.ca","telephone":"+16134345555","sameAs":["https://www.youtube.com/@MinuteNotary","https://www.instagram.com/minutenotary/","https://www.tiktok.com/@minutenotary","https://www.facebook.com/minutenotaryinc","https://x.com/minutenotary","https://www.threads.com/@minutenotary","https://ca.pinterest.com/minutenotary/","https://www.linkedin.com/company/minute-notary","https://maps.app.goo.gl/WYwuRuERQf4eT6yT8","https://www.trustpilot.com/review/minutenotary.ca"]},{"@type":"Notary","@id":"https://minutenotary.ca/#business","name":"Minute Notary","url":"https://minutenotary.ca","telephone":"+16134345555","email":"info@minutenotary.ca","address":{"@type":"PostalAddress","streetAddress":"8056 Jeanne d'Arc Boulevard North","addressLocality":"Ottawa","addressRegion":"ON","postalCode":"K1E 1W8","addressCountry":"CA"},"openingHours":"Mo-Su 08:00-20:00","areaServed":"Ontario","parentOrganization":{"@id":"https://minutenotary.ca/#org"}}]}</script>
 <style>
 @font-face{font-family:"Inter";src:url(fonts/inter-latin.woff2) format("woff2");font-weight:400 700;font-display:swap}
 @font-face{font-family:"Source Serif 4";src:url(fonts/source-serif-4-latin.woff2) format("woff2");font-weight:500 700;font-display:swap}
@@ -333,25 +345,6 @@ footer p{margin:6px 0 0}
   </div>
 </footer>
 
-<script>
-(() => {
-  const form = document.getElementById('code-form');
-  const input = document.getElementById('code');
-  const msg = document.getElementById('code-msg');
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const code = input.value.trim().replace(/^code:\s*/i, '');
-    if (!/^[A-Za-z0-9_-]{6,64}$/.test(code)) {
-      msg.textContent = 'Type the code exactly as printed after “Code:”, letters and numbers only.';
-      input.setAttribute('aria-invalid', 'true');
-      input.focus();
-      return;
-    }
-    input.removeAttribute('aria-invalid');
-    msg.textContent = '';
-    location.href = 'https://minutenotary.ca/verify/' + encodeURIComponent(code);
-  });
-})();
-</script>
+<script src="check.js" defer></script>
 </body>
 </html>
