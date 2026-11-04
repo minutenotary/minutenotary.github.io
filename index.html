@@ -275,11 +275,15 @@ footer p{margin:6px 0 0}
       <h2 id="dev-title">The verifier is open source</h2>
       <p class="intro">Library, command line and browser page under the MIT licence, with the seal format documented so anyone can write their own checker.</p>
       <div class="term" role="region" aria-label="Command line example" tabindex="0">
-<pre><span class="c"># check a sealed PDF next to its proof file</span>
-<span class="p">$</span> npx sealed-pdf-verify document.pdf --proof document.proof.json
+<pre><span class="c"># build once from source (the npm package is not published yet)</span>
+<span class="p">$</span> git clone https://github.com/minutenotary/sealed-pdf-verify
+<span class="p">$</span> cd sealed-pdf-verify &amp;&amp; npm ci &amp;&amp; npm run build:lib
+
+<span class="c"># check a sealed PDF next to its proof file</span>
+<span class="p">$</span> node dist/cli.js document.pdf --proof document.proof.json
 
 <span class="c"># or a whole evidence package</span>
-<span class="p">$</span> npx sealed-pdf-verify evidence.zip</pre>
+<span class="p">$</span> node dist/cli.js evidence.zip</pre>
       </div>
       <dl class="dl">
         <div><dt>Source</dt><dd><a href="https://github.com/minutenotary/sealed-pdf-verify">github.com/minutenotary/sealed-pdf-verify</a></dd></div>
