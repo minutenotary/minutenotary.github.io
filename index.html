@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Check a Sealed Minute Notary Document</title>
 <meta name="description" content="How to check that a PDF sealed by Minute Notary is genuine: the online check with the code printed on the document, and an open-source offline verifier.">
+<meta name="keywords" content="verify sealed PDF, check notary seal, Ontario notary sealed document, commissioner of oaths online Ontario, notary public Ottawa">
 <link rel="canonical" href="https://minutenotary.github.io/">
 <meta property="og:title" content="Check a Sealed Minute Notary Document">
 <meta property="og:description" content="Online check with the printed code, or an open-source offline verifier that never uploads your file.">
@@ -199,6 +200,18 @@ footer p{margin:6px 0 0}
 .reveal{animation:rise .7s var(--ease) both}.d1{animation-delay:.06s}.d2{animation-delay:.12s}.d3{animation-delay:.18s}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.seal-art circle.ring{stroke-dashoffset:0}}
+/* kw:css */
+.kw{padding:72px 0 80px;border-top:1px solid var(--rule)}
+@media (min-width:768px){.kw{padding:96px 0}}
+.kw .lead{margin:16px 0 0;max-width:68ch}
+.kw-cols{display:grid;gap:36px;margin:36px 0 0}
+@media (min-width:900px){.kw-cols{grid-template-columns:1fr 1fr;gap:64px}}
+.kw-cols>*{min-width:0}
+.kw h3{margin:0;font:600 1.25rem/1.3 var(--serif);color:var(--ink);padding-bottom:10px;border-bottom:2px solid var(--ink)}
+.kw ul{margin:0;padding:0;list-style:none}
+.kw li{padding:11px 0;border-bottom:1px solid var(--rule);font-size:15.5px;line-height:1.5}
+.kw .areas{margin:32px 0 0;max-width:72ch;font-size:15.5px}
+/* kw:css-end */
 </style>
 </head>
 <body>
@@ -309,6 +322,16 @@ footer p{margin:6px 0 0}
   </section>
 </main>
 
+<!-- kw:start -->
+<section class="kw" aria-labelledby="kw-title">
+  <div class="container">
+    <p class="eyebrow ink">Minute Notary</p>
+    <h2 class="sec-title" id="kw-title">Who seals these documents</h2>
+    <p class="lead">The documents this page checks are sealed by Minute Notary, a notary public and commissioner of oaths office in Ottawa. We commission affidavits, statutory declarations and oaths over secure video for people anywhere in Ontario, and witness signatures and certify copies in person on a mobile visit.</p>
+    <p class="areas"><a class="read" href="https://minutenotary.ca/services/affidavits?utm_source=minutenotary.github.io&amp;utm_medium=referral&amp;utm_campaign=seal-check&amp;utm_content=services">Affidavits</a> · <a class="read" href="https://minutenotary.ca/services/statutory-declarations?utm_source=minutenotary.github.io&amp;utm_medium=referral&amp;utm_campaign=seal-check&amp;utm_content=services">Statutory declarations</a> · <a class="read" href="https://minutenotary.ca/services/online-notary?utm_source=minutenotary.github.io&amp;utm_medium=referral&amp;utm_campaign=seal-check&amp;utm_content=services">Online notary</a> · <a class="read" href="https://minutenotary.ca/services/certified-copies?utm_source=minutenotary.github.io&amp;utm_medium=referral&amp;utm_campaign=seal-check&amp;utm_content=services">Certified true copies</a></p>
+  </div>
+</section>
+<!-- kw:end -->
 <section class="closing" aria-labelledby="closing-title">
   <div class="container">
     <div>
