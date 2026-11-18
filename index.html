@@ -7,7 +7,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Check a Sealed Minute Notary Document</title>
 <meta name="description" content="How to check that a PDF sealed by Minute Notary is genuine: the online check with the code printed on the document, and an open-source offline verifier.">
-<meta name="keywords" content="verify sealed PDF, check notary seal, Ontario notary sealed document, commissioner of oaths online Ontario, notary public Ottawa">
 <link rel="canonical" href="https://minutenotary.github.io/">
 <meta property="og:title" content="Check a Sealed Minute Notary Document">
 <meta property="og:description" content="Online check with the printed code, or an open-source offline verifier that never uploads your file.">
@@ -39,7 +38,7 @@
     "@id": "https://minutenotary.ca/#org"
   },
   "about": {
-    "@id": "https://minutenotary.ca/#business"
+    "@id": "https://minutenotary.ca/#org"
   },
   "mentions": {
     "@type": "SoftwareSourceCode",
@@ -50,7 +49,7 @@
   }
 }
 </script>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://minutenotary.ca/#org","name":"Minute Notary","url":"https://minutenotary.ca","logo":"https://minutenotary.ca/logo.png","email":"info@minutenotary.ca","telephone":"+16134345555","sameAs":["https://www.youtube.com/@MinuteNotary","https://www.instagram.com/minutenotary/","https://www.tiktok.com/@minutenotary","https://www.facebook.com/minutenotaryinc","https://x.com/minutenotary","https://www.threads.com/@minutenotary","https://ca.pinterest.com/minutenotary/","https://www.linkedin.com/company/minute-notary","https://maps.app.goo.gl/WYwuRuERQf4eT6yT8","https://www.trustpilot.com/review/minutenotary.ca"]},{"@type":"Notary","@id":"https://minutenotary.ca/#business","name":"Minute Notary","url":"https://minutenotary.ca","telephone":"+16134345555","email":"info@minutenotary.ca","address":{"@type":"PostalAddress","streetAddress":"8056 Jeanne d'Arc Boulevard North","addressLocality":"Ottawa","addressRegion":"ON","postalCode":"K1E 1W8","addressCountry":"CA"},"openingHours":"Mo-Su 08:00-20:00","areaServed":"Ontario","parentOrganization":{"@id":"https://minutenotary.ca/#org"}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://minutenotary.ca/#org","name":"Minute Notary","url":"https://minutenotary.ca","logo":"https://minutenotary.ca/logo.png","email":"info@minutenotary.ca","telephone":"+16134345555","sameAs":["https://www.youtube.com/@MinuteNotary","https://www.instagram.com/minutenotary/","https://www.tiktok.com/@minutenotary","https://www.facebook.com/minutenotaryinc","https://x.com/minutenotary","https://www.threads.com/@minutenotary","https://ca.pinterest.com/minutenotary/","https://www.linkedin.com/company/minute-notary","https://maps.app.goo.gl/WYwuRuERQf4eT6yT8","https://www.trustpilot.com/review/minutenotary.ca"]}]}</script>
 <style>
 @font-face{font-family:"Inter";src:url(fonts/inter-latin.woff2) format("woff2");font-weight:400 700;font-display:swap}
 @font-face{font-family:"Source Serif 4";src:url(fonts/source-serif-4-latin.woff2) format("woff2");font-weight:500 700;font-display:swap}
@@ -200,18 +199,6 @@ footer p{margin:6px 0 0}
 .reveal{animation:rise .7s var(--ease) both}.d1{animation-delay:.06s}.d2{animation-delay:.12s}.d3{animation-delay:.18s}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.seal-art circle.ring{stroke-dashoffset:0}}
-/* kw:css */
-.kw{padding:72px 0 80px;border-top:1px solid var(--rule)}
-@media (min-width:768px){.kw{padding:96px 0}}
-.kw .lead{margin:16px 0 0;max-width:68ch}
-.kw-cols{display:grid;gap:36px;margin:36px 0 0}
-@media (min-width:900px){.kw-cols{grid-template-columns:1fr 1fr;gap:64px}}
-.kw-cols>*{min-width:0}
-.kw h3{margin:0;font:600 1.25rem/1.3 var(--serif);color:var(--ink);padding-bottom:10px;border-bottom:2px solid var(--ink)}
-.kw ul{margin:0;padding:0;list-style:none}
-.kw li{padding:11px 0;border-bottom:1px solid var(--rule);font-size:15.5px;line-height:1.5}
-.kw .areas{margin:32px 0 0;max-width:72ch;font-size:15.5px}
-/* kw:css-end */
 </style>
 </head>
 <body>
@@ -219,8 +206,8 @@ footer p{margin:6px 0 0}
 <header class="mast">
   <div class="container">
     <div class="topbar">
-      <a class="brand" href="https://minutenotary.ca/?utm_source=minutenotary.github.io&amp;utm_medium=referral&amp;utm_campaign=seal-check"><img src="assets/logo-192.png" width="48" height="48" alt="">Minute Notary</a>
-      <ul class="reach" aria-label="Contact Minute Notary"><li><a href="https://minutenotary.ca/?utm_source=minutenotary.github.io&amp;utm_medium=referral&amp;utm_campaign=seal-check">minutenotary.ca</a></li><li><a href="mailto:info@minutenotary.ca">info@minutenotary.ca</a></li><li><a class="tel" href="tel:+16134345555">(613) 434-5555</a></li></ul>
+      <a rel="nofollow" class="brand" href="https://minutenotary.ca/?utm_source=minutenotary.github.io&amp;utm_medium=referral&amp;utm_campaign=seal-check"><img src="assets/logo-192.png" width="48" height="48" alt="">Minute Notary</a>
+      <ul class="reach" aria-label="Contact Minute Notary"><li><a rel="nofollow" href="https://minutenotary.ca/?utm_source=minutenotary.github.io&amp;utm_medium=referral&amp;utm_campaign=seal-check">minutenotary.ca</a></li><li><a href="mailto:info@minutenotary.ca">info@minutenotary.ca</a></li><li><a class="tel" href="tel:+16134345555">(613) 434-5555</a></li></ul>
     </div>
     <div class="hero">
       <div>
@@ -228,7 +215,7 @@ footer p{margin:6px 0 0}
         <h1 class="reveal d1">Check that a sealed document is genuine</h1>
         <p class="lede reveal d2">Every document Minute Notary seals carries a code and a cryptographic seal. Check it online in seconds, or offline with open-source code.</p>
         <div class="actions reveal d3">
-          <a class="btn" href="https://minutenotary.ca/book?utm_source=minutenotary.github.io&amp;utm_medium=referral&amp;utm_campaign=seal-check&amp;utm_content=hero-book">Book with Minute Notary</a>
+          <a rel="nofollow" class="btn" href="https://minutenotary.ca/book?utm_source=minutenotary.github.io&amp;utm_medium=referral&amp;utm_campaign=seal-check&amp;utm_content=hero-book">Book with Minute Notary</a>
           <a class="btn line" href="#online">Check a code</a>
           <a class="btn line" href="sealed-pdf-verify/">Open the offline verifier</a>
         </div>
@@ -322,16 +309,6 @@ footer p{margin:6px 0 0}
   </section>
 </main>
 
-<!-- kw:start -->
-<section class="kw" aria-labelledby="kw-title">
-  <div class="container">
-    <p class="eyebrow ink">Minute Notary</p>
-    <h2 class="sec-title" id="kw-title">Who seals these documents</h2>
-    <p class="lead">The documents this page checks are sealed by Minute Notary, a notary public and commissioner of oaths office in Ottawa. We commission affidavits, statutory declarations and oaths over secure video for people anywhere in Ontario, and witness signatures and certify copies in person on a mobile visit.</p>
-    <p class="areas"><a class="read" href="https://minutenotary.ca/services/affidavits?utm_source=minutenotary.github.io&amp;utm_medium=referral&amp;utm_campaign=seal-check&amp;utm_content=services">Affidavits</a> · <a class="read" href="https://minutenotary.ca/services/statutory-declarations?utm_source=minutenotary.github.io&amp;utm_medium=referral&amp;utm_campaign=seal-check&amp;utm_content=services">Statutory declarations</a> · <a class="read" href="https://minutenotary.ca/services/online-notary?utm_source=minutenotary.github.io&amp;utm_medium=referral&amp;utm_campaign=seal-check&amp;utm_content=services">Online notary</a> · <a class="read" href="https://minutenotary.ca/services/certified-copies?utm_source=minutenotary.github.io&amp;utm_medium=referral&amp;utm_campaign=seal-check&amp;utm_content=services">Certified true copies</a></p>
-  </div>
-</section>
-<!-- kw:end -->
 <section class="closing" aria-labelledby="closing-title">
   <div class="container">
     <div>
@@ -340,7 +317,7 @@ footer p{margin:6px 0 0}
       <p>A commissioner takes your oath by video from anywhere in Ontario, every day from 8 AM to 8 PM.</p>
     </div>
     <div class="actions">
-      <a class="btn" href="https://minutenotary.ca/book?utm_source=minutenotary.github.io&amp;utm_medium=referral&amp;utm_campaign=seal-check">Book with Minute Notary</a>
+      <a rel="nofollow" class="btn" href="https://minutenotary.ca/book?utm_source=minutenotary.github.io&amp;utm_medium=referral&amp;utm_campaign=seal-check">Book with Minute Notary</a>
       <a class="draw" href="tel:+16134345555">(613) 434-5555</a>
     </div>
   </div>
@@ -349,7 +326,7 @@ footer p{margin:6px 0 0}
 <footer>
   <div class="container">
     <div>
-      <a class="brand" href="https://minutenotary.ca"><img src="assets/logo-192.png" width="56" height="56" alt="">Minute Notary</a>
+      <a rel="nofollow" class="brand" href="https://minutenotary.ca"><img src="assets/logo-192.png" width="56" height="56" alt="">Minute Notary</a>
       <address>
         <span>8056 Jeanne d'Arc Boulevard North</span>
         <span>Ottawa, Ontario K1E 1W8, Canada</span>
