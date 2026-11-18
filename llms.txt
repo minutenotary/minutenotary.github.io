@@ -14,7 +14,7 @@
 - [sealed-pdf-verify source, MIT licence](https://github.com/minutenotary/sealed-pdf-verify)
 - [sealed-pdf-verify documentation](https://sealed-pdf-verify.readthedocs.io/)
 - [sealed-pdf-verify on npm](https://www.npmjs.com/package/sealed-pdf-verify)
-- [Minute Notary](https://minutenotary.ca): book a notary or commissioner by video, $24.95 per signer
+- [Minute Notary](https://minutenotary.ca): notary and commissioner appointments by video in Ontario
 
 ## Contact
 
